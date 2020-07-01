@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+</head>
+<body>
+<table class="table">
+  <thead>
+    <tr>
+      <td><a href= "#" data-target="#exampleModal" data-toggle="modal" class="btn btn-success">Add Student</a></td>
+      <td><a href= "#" data-target="#exampleModal33" data-toggle="modal" class="btn btn-success">Add Professor</a></td>
+      <td><a href= "#" data-target="#exampleModal2" data-toggle="modal" class="btn btn-success">Add Class</a></td>
+    </tr>
+
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">image</th>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Address</th>
+      <th scope="col">Class</th>
+      <th scope="col">Professor</th>
+      <th scope="col">created_at</th>
+
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {%for s in stud%}
+      <th scope="row">{{s.id}}</th>
+
+      {%if s.image%}
+      <td>
+        <img src="{{s.image.url}}" width="70" height="70">
+      </td>
+      {%else%}
+      <td>
+        No image
+      </td>
+      {%endif%}
+
+      <td>{{s.name}}</td>
+      <td>{{s.age}}</td>
+      <td>{{s.address}}</td>
+      <td>{{s.Class}}</td>
+      <td>{{s.prof.prof_name}}</td>
+      <td>{{s.created_at}}</td>
+
+      <td><a href="#"  data-target="#exampleModal6{{s.id}}" data-toggle="modal" class="btn btn-warning">Edit</a></td>
+      <td><a href="{%url 'deleted' s.id%}" class="btn btn-danger">Delete</a></td>
+    </tr>
+
+    <!-- Modal  Edit Student -->
+    <div class="modal fade" id="exampleModal6{{s.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabe111">Edit Student</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+<form class="col md-6" method="POST" action="{%url 'edit_s' s.id%}" enctype="multipart/form-data">
+    {%csrf_token%}
+
+    <label for="exampleInputEmail1">Student Name</label>
+    <input value="{{s.name}}" name="name" type="text" class="form-control" id="exampleInputEmail111" aria-describedby="emailHelp" placeholder="Enter student name">
+
+    <label for="exampleInputEmail1">Student Age</label>
+    <input value="{{s.age}}" name="age"type="text" class="form-control" id="exampleInputEmail112" aria-describedby="emailHelp" placeholder="Enter student age">
+
+    <label for="exampleInputEmail1">Student Address</label>
+    <input value="{{s.address}}" name="address" type="text" class="form-control" id="exampleInputEmail123" aria-describedby="emailHelp" placeholder="Enter student Address">
+
+
+    <label for="exampleInputEmail1">Student Class</label>
+    <input value="{{s.Class.class_number}}" name="class" type="text" class="form-control" id="exampleInputEmail133" aria-describedby="emailHelp" placeholder="Enter student Class">
+
+
+    <label for="exampleInputEmail1">Proffessor</label>
+    <input value="{{s.prof.prof_name}}" name="Professor" type="text" class="form-control" id="exampleInputEmail113" aria-describedby="emailHelp" placeholder="Enter Professor">
+
+
+    <label for="exampleInputEmail1">Choic your photo</label>
+    <input type="file" name="im">
+
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">update Student</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+    {%endfor%}
+  </tbody>
+</table>
+
+<!-- Modal  Add Student -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabe101">Add Student</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+<form class="col md-6" method="POST" action="{%url 'add_s'%}" enctype="multipart/form-data">
+    {%csrf_token%}
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Student Name</label>
+    <input name="name" type="text" class="form-control" id="exampleInputEmail101" aria-describedby="emailHelp" placeholder="Enter student name">
+  </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Student Age</label>
+        <input name="age"type="text" class="form-control" id="exampleInputEmail102" aria-describedby="emailHelp" placeholder="Enter student age">
+    </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Student Address</label>
+    <input name="address" type="text" class="form-control" id="exampleInputEmail103" aria-describedby="emailHelp" placeholder="Enter student Address">
+  </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">class</label>
+        <select name="class" class="form-control">
+            {%for s in cl%}
+               <option value="{{s.class_number}}">{{s.class_number}}</option>
+            {%endfor%}
+        </select>
+
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Professor</label>
+        <select name="Professor" class="form-control">
+            {%for p in pr%}
+               <option value="{{p.prof_name}}">{{p.prof_name}}</option>
+            {%endfor%}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Choic your photo</label>
+        <input type="file" name="im">
+    </div>
+
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Add Student</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal  Add Profesor -->
+<div class="modal fade" id="exampleModal33" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Add Professor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+<form class="col md-6" method="POST" action="{%url 'add_p'%}" enctype="multipart/form-data">
+    {%csrf_token%}
+
+    <label for="exampleInputEmail1">Professor Name</label>
+    <input name="prof_name" type="text" class="form-control" id="exampleInputEmail22" aria-describedby="emailHelp" placeholder="Enter Professor name">
+
+        <label for="exampleInputEmail1">class</label>
+        <select name="class" class="form-control">
+            {%for s in cl%}
+               <option value="{{s.class_number}}">{{s.class_number}}</option>
+            {%endfor%}
+        </select>
+
+
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Add Professor</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal  Add class -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Class</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+<form class="col md-6" method="POST" action="{%url 'add_c'%}" enctype="multipart/form-data">
+    {%csrf_token%}
+
+    <label for="exampleInputEmail1">Class Number</label>
+    <input name="class_number55" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Class Number">
+
+   <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Add Class</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

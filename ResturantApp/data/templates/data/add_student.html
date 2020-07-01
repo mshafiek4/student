@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student</title>
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+</head>
+<body>
+
+<form class="col md-6" method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Student Name</label>
+    <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter student name">
+  </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Student Age</label>
+        <input name="age"type="text" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="Enter student age">
+    </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Student Address</label>
+    <input name="address" type="text" class="form-control" id="exampleInputEmail3" aria-describedby="emailHelp" placeholder="Enter student Address">
+  </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">class</label>
+        <select name="class" class="form-control">
+            {%for s in cl%}
+               <option value="{{s.class_number}}">{{s.class_number}}</option>
+            {%endfor%}
+        </select>
+
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Professor</label>
+        <select name="Professor" class="form-control">
+            {%for p in pr%}
+               <option value="{{p.prof_name}}">{{p.prof_name}}</option>
+            {%endfor%}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Choic your photo</label>
+        <input type="file" name="im">
+    </div>
+
+  <button type="submit" class="btn btn-primary">Add Student</button>
+</form>
+
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.js.map' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js.map' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/bootstrap.js.map' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js.map' %}"></script>
+</body>
+</html>
+
